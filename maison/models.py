@@ -7,6 +7,9 @@ class capteur(models.Model):
 
    def dico(self):
       return{"nomCapteur":self.nomCapteur,"Emplacement":self.Emplacement}
+
+   def __str__(self):
+      return self.nomCapteur+" ("+self.id+")"
    
 class donnee(models.Model):
    temperature = models.IntegerField(blank=False)

@@ -1,36 +1,71 @@
 import os
-
+import matplotlib.pyplot as plt
 from django.http import FileResponse, HttpResponse
+from django.utils import timezone
+from io import BytesIO
+from datetime import datetime
 from django.shortcuts import render, HttpResponseRedirect,get_object_or_404,redirect
 from .models import *
 from .forms import *
 import csv
 
-def main(resquest):
 
 
+def index(request):
+    sensors = capteur.objects.all()  # Assuming Capteur is your Sensor model
+    latest_temperatures = {sensor: donnee.objects.filter(id_capteur=sensor).last().temperature for sensor in sensors}
+    return render(request, 'index.html', {'latest_temperatures': latest_temperatures})
 
+def sensor_data(request, sensor_id):
+    sensor = get_object_or_404(capteur, id=sensor_id)
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    if start and end:
+        start = timezone.make_aware(datetime.strptime(start, "%Y-%m-%dT%H:%M"))
+        end = timezone.make_aware(datetime.strptime(end, "%Y-%m-%dT%H:%M"))
+        data = donnee.objects.filter(id_capteur=sensor, timestamp__range=(start, end))
+    else:
+        data = donnee.objects.filter(id_capteur=sensor)
+
+    plt.figure()
+    plt.plot([d.timestamp for d in data], [d.temperature for d in data])
+    plt.title('Temperature over time')
+    plt.xlabel('Timestamp')
+    plt.ylabel('Temperature')
+
+    # Save the plot to a BytesIO object
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+
+    return render(request, 'sensor_data.html', {'data': data, 'sensor': sensor, 'plot': buf.getvalue()})
 
 def purge(request):
     Donnee = donnee.objects.all().delete()
-    return HttpResponseRedirect("/maison/")
+    sensors = capteur.objects.all().delete()
+    return HttpResponseRedirect("/")
 
-def updatetraitement(request, id):
-    form = capteurForm(request.POST)
-    update = form.save(commit = False)
-    update.id = id 
-    update.save()
-    return HttpResponseRedirect("/maison/")
+def all_data(request):
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    if start and end:
+        start = timezone.make_aware(datetime.strptime(start, "%Y-%m-%dT%H:%M"))
+        end = timezone.make_aware(datetime.strptime(end, "%Y-%m-%dT%H:%M"))
+        all_data = donnee.objects.filter(timestamp__range=(start, end)).order_by('timestamp')
+    else:
+        all_data = donnee.objects.all().order_by('timestamp')
+    return render(request, 'all_data.html', {'all_data': all_data})
 
-
-def affichage_spe(request):
-    donnee_capteur = donnee.objects.all()
-    return render(request,"affichage_spe.html",{"donnee":donnee_capteur})
-
-def capteur_data(request, id):
-    donnee_capteur = donnee.objects.filter(id_capteur_id=id)
-    return render(request, "capteur_data.html", {"donnee": donnee_capteur})
-
+def edit_sensor(request, sensor_id):
+    sensor = get_object_or_404(capteur, id=sensor_id)
+    if request.method == "POST":
+        form = capteurForm(request.POST, instance=sensor)
+        if form.is_valid():
+            form.save()
+            return redirect('sensor_data', sensor_id=sensor.id)
+    else:
+        form = capteurForm(instance=sensor)
+    return render(request, 'edit_sensor.html', {'form': form, 'sensor': sensor})
 
 
 

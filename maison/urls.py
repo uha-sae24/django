@@ -2,15 +2,10 @@ from django.urls import  path
 from . import views 
 
 urlpatterns = [
-    path("",views.main),
-    path('name_update_A/<str:id>/',views.name_update_A, name='name_update_A'),
-    path('name_update_B/<str:id>/',views.name_update_B,name='name_update_B'),
+    path("",views.index,name="index"),
     path('purge/', views.purge, name='purge'),
-    path('updatetraitement/<str:id>/',views.updatetraitement,name='updatetraitement'),
-    path('affichage_spe/',views.affichage_spe,name='affichage_spe'),
-    path('valeurCapteur/',views.focus,name='focus'),
     path('export_csv/', views.export_csv, name='export_csv'),
-    #path('affichage_spe/<str:id>/', views.affichage_spe_id),
-    #path('affichage_spe/<str:id>/<')
-    path('capteur/<str:id>/', views.capteur_data, name='capteur_data'),
+    path('all_data/', views.all_data, name='all_data'),
+    path('sensor_data/<str:sensor_id>/', views.sensor_data, name='sensor_data'),
+    path('edit_sensor/<str:sensor_id>/', views.edit_sensor, name='edit_sensor'),
 ]

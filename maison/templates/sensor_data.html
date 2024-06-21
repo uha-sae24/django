@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+{% load base64encode %}
+{% block content %}
+    <a href="{% url 'index' %}">Retour à l'accueil</a>
+    <h1>Données pour le capteur : {{ sensor.nomCapteur }}</h1>
+    <p>ID="{{sensor.id}}"</p>
+    <form method="get">
+        <label for="start">De:</label>
+        <input type="datetime-local" id="start" name="start">
+        <label for="end">À:</label>
+        <input type="datetime-local" id="end" name="end">
+        <input type="submit" value="Filtrer">
+    </form>
+    <img src="data:image/png;base64,{{ plot|base64encode }}">
+    <table>
+        <tr>
+            <th>Temperature</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for d in data %}
+        <tr>
+            <td>{{ d.temperature }}</td>
+            <td>{{ d.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
