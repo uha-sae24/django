@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="efr">
+<head>
+    <meta http-equiv="refresh" content="5">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'affichage_spe' %}">affichege spe</a>
+    <a href="affichage_spe/">test</a>
+<section>
+
+    <article>
+        
+            
+            id capteur A : {{donnee_capteur_A.id_capteur_id}}<br>
+            information du capteur A : {{info_capteur_A.nomCapteur}} / {{info_capteur_A.Emplacement}} <a href="/maison/name_update_A/{{info_capteur_A.id}}/"> update</a><br>
+            température de la maison au capteur A : {{donnee_capteur_A.temperature}}<br>
+            <br>
+            
+            id capteur B : {{donnee_capteur_B.id_capteur_id}}<br>
+            information du capteur B : {{info_capteur_B.nomCapteur}} / {{info_capteur_B.Emplacement}} <a href="/maison/name_update_B/{{info_capteur_B.id}}/"> update</a><br>
+            température de la maison au capteur B : {{donnee_capteur_B.temperature}}<br>
+            
+          
+    </article>
+
+</section>
+
+
+
+
+</body>
+</html>
