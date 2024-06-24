@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5dc;
+    color: #333;
+}
+
+
+
+h1, h2, h3, h4, h5, h6 {
+    color: #8B4513;
+    border-radius: 10px;
+}
+
+a {
+    color: #8B4513;
+
+}
+
+button {
+    background-color: #8B4513;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+}
+
+table, th, td {
+    border: 1px solid #8B4513;
+    border-radius: 10px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-radius: 10px;
+}
+
+form {
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+input[type="submit"] {
+    background-color: #8B4513;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+input[type="submit"]:hover {
+    background-color: #A0522D;
+    border-radius: 10px;
+}

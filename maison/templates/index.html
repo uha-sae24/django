@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <meta http-equiv="refresh" content="5">
+    <a href="{% url 'all_data' %}"><button>Tous les capteurs</button></a>
+    <h1>Latest Temperatures</h1>
+    {% for sensor, temperature in latest_temperatures.items %}
+        <p>Capteur: {{ sensor }} - Temperature: {{ temperature }}</p>
+        <form action="{% url 'sensor_data' sensor.id %}" method="get">
+            <input type="submit" value="Voir les données">
+        </form>
+        <form action="{% url 'edit_sensor' sensor.id %}" method="get">
+            <input type="submit" value="Edit Sensor">
+        </form>
+    {% endfor %}
+    <form action="{% url 'purge' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Purge DB">
+    </form>
+{% endblock %}

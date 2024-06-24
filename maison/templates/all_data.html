@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <h1>Toutes les données</h1>
+    <form method="get">
+        <label for="start">De:</label>
+        <input type="datetime-local" id="start" name="start">
+        <label for="end">À:</label>
+        <input type="datetime-local" id="end" name="end">
+        <input type="submit" value="Filtrer">
+    </form>
+    <table>
+        <tr>
+            <th>ID Capteur</th>
+            <th>ID Donnée</th>
+            <th>Température</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for d in all_data %}
+        <tr>
+            <td>{{ d.id_capteur.id }}</td>
+            <td>{{ d.id }}</td>
+            <td>{{ d.temperature }}</td>
+            <td>{{ d.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
