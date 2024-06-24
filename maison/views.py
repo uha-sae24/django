@@ -89,11 +89,10 @@ def export_csv(request):
             # Écrire chaque ligne de données dans le fichier CSV
             writer.writerow(row)
 
-        with open('export.csv', 'r') as file:
-            file_content = file.read()
+        file = open('export.csv', 'rb')
 
+        #return HttpResponseRedirect("/")
         # Créer une réponse avec le contenu du fichier CSV
-        response = HttpResponse(file_content, content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="export.csv"'
+        return FileResponse(file, as_attachment=True, filename='export.csv')
 
-        return response
+        #return response
